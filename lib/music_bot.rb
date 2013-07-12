@@ -18,14 +18,18 @@ class MusicBot
     @ready = true
   end
 
-  def user_state(user)
-    username = user.name || user_by_id(user.user_id).username
-    puts "[u] Got UserState message for user #{username} (#{user.user_id})"
-    puts "[u] #{username} is now in channel id #{user.channel_id}"
+  def user_state(message)
+    puts '[d] Received UserState message:'
+    puts message.inspect
+    user = user_by_session(message.session) || message
+    puts "[u] Got UserState message for user #{user.name} (#{user.user_id})"
+    puts "[u] #{user.name} is now in channel id #{user.channel_id}"
   end
 
-  def user_by_id(id)
-    @client.users.values.find {|u| u.id == user.user_id}
+  def user_by_session(session_id)
+    puts "[d] Finding user by session id #{session_id}"
+    user = @client.users.values.find {|u| u.session == session_id}
+    puts "[d] Found:\n#{user.inspect}"
   end
 
   def dump_thread_info
