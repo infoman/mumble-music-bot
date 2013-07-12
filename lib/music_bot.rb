@@ -66,6 +66,7 @@ class MusicBot
     # Start an audio stream
     puts "[c] Starting audio stream"
     @stream  = @client.stream_raw_audio(Settings.mpd.fifo)
+    @stream.volume = Settings.mpd.volume
     @running = true
 
     # Empty loop
